@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="velvet-midnight">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+  <title>Happy Birthday Shree...!! 🎂💖</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- FontAwesome Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+  
+  <!-- Canvas Confetti Library CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+  <!-- Background Particle Canvas -->
+  <canvas id="bgCanvas"></canvas>
+
+  <!-- Welcome / Tap to Start Music Overlay for Guaranteed Autoplay -->
+  <div id="welcomeOverlay" class="fixed inset-0 bg-[#0d0614]/90 backdrop-blur-xl z-[10000] flex flex-col items-center justify-center p-4 text-center transition-opacity duration-500">
+    <div class="glass-card max-w-sm w-full p-8 border-2 border-pink-500/50 shadow-2xl flex flex-col items-center">
+      <div class="w-16 h-16 rounded-full bg-pink-500/20 border border-pink-400 flex items-center justify-center text-pink-400 text-3xl mb-4 animate-bounce">
+        <i class="fa-solid fa-heart"></i>
+      </div>
+      <h2 class="text-3xl font-bold font-cursive text-gradient mb-2">Shree's Birthday Surprise</h2>
+      <p class="text-pink-200/90 text-sm mb-6 font-light">Tap below to enter & play <strong>"Tu Hai Kahan"</strong> 🎵💕</p>
+      
+      <button id="startExperienceBtn" class="px-8 py-3.5 rounded-full bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white font-semibold text-base shadow-lg shadow-pink-500/40 flex items-center gap-3 transition-all transform active:scale-95">
+        <i class="fa-solid fa-play text-xs"></i>
+        <span>Open Birthday Celebration</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Live Theme Switcher Toolbar -->
+  <div class="theme-switcher-bar" title="Change Website Theme">
+    <span class="text-[11px] sm:text-xs text-pink-200 font-medium hidden sm:inline mr-1"><i class="fa-solid fa-palette text-yellow-300"></i> Theme:</span>
+    <button onclick="setTheme('velvet-midnight')" class="theme-btn btn-velvet active" data-theme="velvet-midnight" title="Velvet Midnight Starlight"></button>
+    <button onclick="setTheme('pink-romance')" class="theme-btn btn-pink" data-theme="pink-romance" title="Dreamy Pink Romance"></button>
+    <button onclick="setTheme('golden-sunset')" class="theme-btn btn-golden" data-theme="golden-sunset" title="Golden Sunset Love"></button>
+    <button onclick="setTheme('neon-moonlight')" class="theme-btn btn-neon" data-theme="neon-moonlight" title="Neon Moonlight"></button>
+  </div>
+
+  <!-- Floating Audio Widget -->
+  <div id="audioWidget" class="audio-widget" title="Toggle Tu Hai Kahan Song">
+    <div id="musicWaves" class="music-waves paused">
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <span id="audioText" class="text-xs sm:text-sm font-medium text-pink-200">Tu Hai Kahan 💕</span>
+  </div>
+
+  <!-- Background Music Audio Element for "tu_hai_kahan.mp3" -->
+  <audio id="bgAudio" loop preload="auto">
+    <source src="tu_hai_kahan.mp3" type="audio/mpeg">
+    <source src="tu hai kahan.mp3" type="audio/mpeg">
+    <source src="tu%20hai%20kahan.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Main Website Content -->
+  <div class="content-wrapper">
+
+    <!-- HERO SECTION -->
+    <header class="hero-section">
+      <div class="max-w-4xl mx-auto px-4 z-10 w-full">
+        <!-- Floating Heart Tag -->
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-pink-500/20 border border-pink-400/30 text-pink-300 text-xs sm:text-sm font-medium mb-4 sm:mb-6 animate-pulse">
+          <i class="fa-solid fa-sparkles text-yellow-300"></i> Today is all about you! <i class="fa-solid fa-heart text-pink-500"></i>
+        </div>
+
+        <!-- Main Title Wrapper -->
+        <div class="hero-title-wrapper">
+          <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold font-cursive text-gradient glow-text">
+            Happy Birthday Shree...!!
+          </h1>
+        </div>
+
+        <!-- Typing Subtitle -->
+        <div class="h-16 sm:h-12 flex items-center justify-center px-2 mt-2">
+          <p id="typingText" class="text-base sm:text-xl md:text-2xl text-pink-200 font-light font-handwriting tracking-wide leading-snug"></p>
+        </div>
+
+        <!-- Action Button -->
+        <div class="mt-6 sm:mt-8 flex justify-center">
+          <a href="#gallery" class="floating-heart-btn px-6 py-3 sm:px-8 sm:py-4 rounded-full bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white font-semibold text-base sm:text-lg shadow-lg shadow-pink-500/40 flex items-center gap-3 transition-all duration-300 transform active:scale-95">
+            <span>Explore Our Journey</span>
+            <i class="fa-solid fa-arrow-down-long text-pink-200"></i>
+          </a>
+        </div>
+      </div>
+    </header>
+
+
+    <!-- 3D ROUND CIRCULAR PHOTO CAROUSEL ("ROUND MADHE AUTO SCROLL") -->
+    <section id="gallery" class="carousel-section">
+      <div class="max-w-5xl mx-auto px-4">
+        <div class="text-center mb-4 sm:mb-8">
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold font-cursive">
+            <span class="text-gradient">Our Beautiful Memories</span>
+          </h2>
+          <p class="text-pink-300/80 text-xs sm:text-sm md:text-base px-2 mt-1">✨ 3D Auto-rotating photo ring • Swipe or tap photo to enlarge ✨</p>
+        </div>
+
+        <!-- 3D Carousel Container with Analyzed Photos & Custom Romantic Quotes -->
+        <div id="carousel3d" class="carousel-3d-container">
+          <div class="carousel-ring">
+            
+            <!-- Photo Card 1: Birthday Celebration -->
+            <div class="carousel-card">
+              <img src="photo1.jpeg" alt="In your eyes, I found my favorite home 💕" />
+              <div class="card-caption">In your eyes, I found my favorite home 💕</div>
+            </div>
+
+            <!-- Photo Card 2: Funny Fort Selfie -->
+            <div class="carousel-card">
+              <img src="photo2.jpeg" alt="My partner in crime & favorite madness 😜❤️" />
+              <div class="card-caption">My partner in crime & favorite madness 😜❤️</div>
+            </div>
+
+            <!-- Photo Card 3: Sweet Side Look -->
+            <div class="carousel-card">
+              <img src="photo3.jpeg" alt="Every view is better when I'm looking at you 💖" />
+              <div class="card-caption">Every view is better when I'm looking at you 💖</div>
+            </div>
+
+            <!-- Photo Card 4: Arm Around Shoulder -->
+            <div class="carousel-card">
+              <img src="photo4.jpeg" alt="Wrapped in your arms, safe & happy 👫✨" />
+              <div class="card-caption">Wrapped in your arms, safe & happy 👫✨</div>
+            </div>
+
+            <!-- Photo Card 5: Prettiest Solo View -->
+            <div class="carousel-card">
+              <img src="photo5.jpeg" alt="Prettier than any view in the world 👑✨" />
+              <div class="card-caption">Prettier than any view in the world 👑✨</div>
+            </div>
+
+            <!-- Photo Card 6: Hand in Hand Walk -->
+            <div class="carousel-card">
+              <img src="photo6.jpeg" alt="Walking through life, hand in hand with you 🤝❤️" />
+              <div class="card-caption">Walking through life, hand in hand with you 🤝❤️</div>
+            </div>
+
+            <!-- Photo Card 7: Together Smiling -->
+            <div class="carousel-card">
+              <img src="photo7.jpeg" alt="Together is my absolute favorite place to be 💫" />
+              <div class="card-caption">Together is my absolute favorite place to be 💫</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Carousel Manual Controls -->
+        <div class="carousel-controls">
+          <button id="prevBtn" class="btn-circle" title="Rotate Left" aria-label="Previous Photo">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <button id="nextBtn" class="btn-circle" title="Rotate Right" aria-label="Next Photo">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- VIRTUAL BIRTHDAY CAKE SECTION -->
+    <section class="cake-section">
+      <div class="max-w-3xl mx-auto px-4">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold font-cursive">
+          <span class="text-gradient">Make A Birthday Wish!</span> <span class="inline-block ml-1">🎂</span>
+        </h2>
+        <p id="cakeWishMsg" class="text-pink-200 text-xs sm:text-sm md:text-base font-light px-2 mt-1">
+          Tap on the cake to blow out candles & launch confetti! 🕯️✨
+        </p>
+
+        <!-- 3D Interactive Animated Cake Component -->
+        <div id="birthdayCake" class="cake-container" title="Click to blow out candles!">
+          <div class="candle candle-1"><div class="flame"></div></div>
+          <div class="candle candle-2"><div class="flame"></div></div>
+          <div class="candle candle-3"><div class="flame"></div></div>
+          <div class="cake-layer-top"><div class="cake-icing"></div></div>
+          <div class="cake-body"></div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ROMANTIC LOVE NOTES & MEMORY CARDS -->
+    <section class="py-12 sm:py-16 px-4">
+      <div class="max-w-5xl mx-auto">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold font-cursive text-center">
+          <span class="text-gradient">Reasons Why You Are Special</span>
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mt-8 sm:mt-12">
+          
+          <!-- Memory Card 1 -->
+          <div class="glass-card p-6 sm:p-8 flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pink-500/20 border border-pink-400/40 flex items-center justify-center text-pink-400 text-lg sm:text-xl mb-3 sm:mb-4">
+                <i class="fa-solid fa-heart"></i>
+              </div>
+              <h3 class="text-xl sm:text-2xl font-semibold text-pink-100 font-handwriting mb-2">Your Smile Lights Up Everything</h3>
+              <p class="text-pink-200/80 text-xs sm:text-sm leading-relaxed">
+                Whenever you smile, the entire world gets a little brighter. Your laughter is my absolute favorite sound in the universe.
+              </p>
+            </div>
+          </div>
+
+          <!-- Memory Card 2 -->
+          <div class="glass-card p-6 sm:p-8 flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pink-500/20 border border-pink-400/40 flex items-center justify-center text-pink-400 text-lg sm:text-xl mb-3 sm:mb-4">
+                <i class="fa-solid fa-star"></i>
+              </div>
+              <h3 class="text-xl sm:text-2xl font-semibold text-pink-100 font-handwriting mb-2">Best Memories Together</h3>
+              <p class="text-pink-200/80 text-xs sm:text-sm leading-relaxed">
+                From simple late-night talks to our wildest adventures, every single moment spent with you is a memory I cherish deeply.
+              </p>
+            </div>
+          </div>
+
+          <!-- Memory Card 3 -->
+          <div class="glass-card p-6 sm:p-8 flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pink-500/20 border border-pink-400/40 flex items-center justify-center text-pink-400 text-lg sm:text-xl mb-3 sm:mb-4">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+              </div>
+              <h3 class="text-xl sm:text-2xl font-semibold text-pink-100 font-handwriting mb-2">My Favorite Comfort Place</h3>
+              <p class="text-pink-200/80 text-xs sm:text-sm leading-relaxed">
+                With you, I can always be myself. You bring so much peace, happiness, and comfort into my life every single day.
+              </p>
+            </div>
+          </div>
+
+          <!-- Memory Card 4 -->
+          <div class="glass-card p-6 sm:p-8 flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pink-500/20 border border-pink-400/40 flex items-center justify-center text-pink-400 text-lg sm:text-xl mb-3 sm:mb-4">
+                <i class="fa-solid fa-infinity"></i>
+              </div>
+              <h3 class="text-xl sm:text-2xl font-semibold text-pink-100 font-handwriting mb-2">Here's To Always & Forever</h3>
+              <p class="text-pink-200/80 text-xs sm:text-sm leading-relaxed">
+                I promise to keep making you smile, support all your dreams, and celebrate many more birthdays together!
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- SUPER ANIMATED SECRET GIFT BOX SECTION -->
+    <section class="py-12 sm:py-16 px-4 text-center">
+      <div class="max-w-2xl mx-auto">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold font-cursive">
+          <span class="text-gradient">A Secret Surprise For You</span> <span class="inline-block ml-1">🎁</span>
+        </h2>
+        <p class="text-pink-300/80 text-xs sm:text-sm mb-6 mt-1">Tap on the gift box below to unwrap your special letter!</p>
+
+        <!-- Super Animated 3D Gift Box Component -->
+        <div id="giftBox" class="gift-box" title="Click to unwrap surprise!">
+          <div class="light-beam"></div>
+          <div class="gift-lid">
+            <div class="gift-bow"></div>
+            <div class="gift-ribbon-v"></div>
+          </div>
+          <div class="gift-body">
+            <div class="gift-ribbon-v"></div>
+            <div class="gift-ribbon-h"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer class="py-6 sm:py-8 text-center border-t border-pink-500/20 text-pink-300/60 text-xs sm:text-sm px-4">
+      <p>Made with ❤️ for <span class="text-pink-300 font-semibold">Shree</span>'s Special Birthday</p>
+    </footer>
+
+  </div>
+
+
+  <!-- GIFT MODAL / LOVE LETTER POPUP -->
+  <div id="giftModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[9999] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300 [&.active]:opacity-100 [&.active]:pointer-events-auto">
+    <div class="glass-card max-w-lg w-full p-6 sm:p-8 relative border-2 border-pink-400/50 shadow-2xl transform transition-transform duration-300 scale-95 [&.active]:scale-100 max-h-[90vh] flex flex-col justify-between">
+      
+      <!-- Close Button -->
+      <button onclick="closeGiftModal()" class="absolute top-3 right-3 text-pink-300 hover:text-white text-lg w-8 h-8 rounded-full bg-pink-500/20 flex items-center justify-center transition-colors">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <!-- Letter Content -->
+      <div class="text-center overflow-hidden flex flex-col">
+        <div class="text-3xl sm:text-4xl text-pink-400 mb-2 sm:mb-3"><i class="fa-solid fa-envelope-open-text"></i></div>
+        <h3 class="text-2xl sm:text-3xl font-bold font-cursive">
+          <span class="text-gradient">Happy Birthday My Love!</span> <span class="inline-block ml-1">❤️</span>
+        </h3>
+        
+        <div class="text-left text-pink-100 text-xs sm:text-sm md:text-base leading-relaxed space-y-3 sm:space-y-4 max-h-[50vh] overflow-y-auto pr-2 font-light mt-2">
+          <p class="text-pink-300 font-semibold text-base sm:text-lg">Myy Chichundriii...!!,</p>
+          <p>
+            On this wonderful day, I want to remind you just how deeply loved and appreciated you are. Having you in my life is the greatest gift I could ever ask for.
+          </p>
+          <p>
+            May your birthday be filled with endless smiles, sweet surprises, delicious cake, and all the happiness your heart can hold.
+          </p>
+          <p class="font-handwriting text-xl sm:text-2xl text-pink-300 pt-1 text-right">
+            Always & Forever,<br>Yours ❤️
+          </p>
+        </div>
+
+        <div class="pt-4">
+          <button onclick="closeGiftModal()" class="px-6 py-2.5 rounded-full bg-pink-500 hover:bg-pink-600 text-white font-medium text-xs sm:text-sm transition-all shadow-lg shadow-pink-500/30">
+            Close Letter 💕
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- LIGHTBOX MODAL -->
+  <div id="lightboxModal" class="lightbox-modal">
+    <div class="lightbox-content">
+      <button onclick="closeLightbox()" class="absolute top-3 right-3 text-white text-lg w-9 h-9 rounded-full bg-black/60 flex items-center justify-center z-10 hover:bg-pink-600 transition-colors">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <img id="lightboxImg" src="" alt="Zoomed Photo" />
+      <div id="lightboxCaption" class="lightbox-caption"></div>
+    </div>
+  </div>
+
+
+  <!-- JavaScript Modules -->
+  <script src="js/carousel.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
